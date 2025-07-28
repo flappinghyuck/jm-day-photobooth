@@ -6,12 +6,12 @@
   <title>DIY Photobooth - Happy Jaemin Day</title>
   <style>
     @font-face {
-      font-family: 'Schoolbell';
-      src: url('Schoolbell.woff2') format('woff2');
+      font-family: 'American Typewriter';
+      src: url('AmericanTypewriter.ttf') format('truetype');
       font-weight: bold;
     }
     body {
-      font-family: 'Schoolbell', sans-serif;
+      font-family: 'American Typewriter', sans-serif;
       background: url('BGJMDAY.png') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
@@ -24,7 +24,7 @@
     }
     .title {
       text-align: center;
-      font-family: 'Schoolbell';
+      font-family: 'American Typewriter';
       font-size: 25em;
       font-weight: bold;
       margin-top: 10px;
@@ -47,6 +47,7 @@
       width: 2000px;
       height: 2000px;
       border-radius: 10px;
+      transform: scaleX(-1);
     }
     #controls {
       margin-top: 10px;
@@ -91,7 +92,7 @@
       cursor: pointer;
     }
     #countdown {
-      font-size: 2.5em;
+      font-size: 5em;
       margin: 10px;
       color: #814357;
     }
@@ -151,7 +152,7 @@ function startCapture() {
   captureIndex = 0;
   captureNextPhoto();
 }
-  function captureNextPhoto() {
+function captureNextPhoto() {
   if (captureIndex >= photoCanvases.length) {
     countdownDiv.textContent = "Done!";
     return;
@@ -165,11 +166,15 @@ function startCapture() {
     } else {
       clearInterval(interval);
       countdownDiv.textContent = "";
-      // Capture photo
+      // Capture photo (MIRRORED)
       const ctx = photoCanvases[captureIndex].getContext('2d');
       photoCanvases[captureIndex].width = 871;
       photoCanvases[captureIndex].height = 859;
+      ctx.save();
+      ctx.translate(photoCanvases[captureIndex].width, 0);
+      ctx.scale(-1, 1);
       ctx.drawImage(video, 0, 0, 871, 859);
+      ctx.restore();
       captureIndex++;
       setTimeout(captureNextPhoto, 500); // Short pause before next photo
     }
